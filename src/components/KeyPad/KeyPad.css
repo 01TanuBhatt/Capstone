@@ -4,3 +4,35 @@
     padding: 20px;
     display: flex;
   }
+
+  .keypad p{
+    line-height:1.875rem;
+    font-size:1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:300ms;
+    color:var(--text-color-2);
+  }
+.keypad_keys p:active{
+  background-color:rgba(0,0,0,0.14)
+}
+  .keypad_keys{
+    flex: 7.5;
+    display:flex;
+    flex-wrap:wrap;
+  }
+
+  .keypad_keys p{
+    width: 33%;
+    height:25%;
+  }
+  .keypad_symbols{
+    flex:3;
+  }
+
+  .keypad_symbols p{
+    color:#FBEAEB;
+    width:160%;
+    height:20%;
+  }
