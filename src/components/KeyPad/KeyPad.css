@@ -13,6 +13,8 @@
     align-items: center;
     transition:300ms;
     color:var(--text-color-2);
+    user-select:none;
+    cursor:pointer;
   }
 .keypad_keys p:active{
   background-color:rgba(0,0,0,0.14)
