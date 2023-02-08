@@ -2,19 +2,25 @@ import React,{useEffect,useRef} from 'react';
 import './Header.css'
 export default function Header(props) {
   const resultRef=useRef();
+  const expressionRef=useRef();
   useEffect(()=>{
      resultRef.current.scrollIntoView();
-  },[])
+  },[props.history])
+
+  useEffect(()=>{
+    expressionRef.current.scrollLeft=expressionRef.current.scrollWidth;
+  },[props.expression])
   return (
     <div className="header custom-scroll">
       <div className="header_history">
-      <p>10-9</p>
-      <p>2345-9887</p>
-      <p>34*78</p>
-      <p>12345/78</p>
+        {
+          props.history &&
+          props.history?.map((item,index)=><p key={item+""+Math.random()*44}>{item}</p>)
+        }
+      
       </div>
       <br></br>
-      <div className="header_expression custom-scroll">
+      <div ref={expressionRef} className="header_expression custom-scroll">
         <p>{props.expression}</p>
       </div>
       <p ref={resultRef} className="header_result">{props.result}</p>

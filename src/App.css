@@ -27,7 +27,7 @@
   background-color:gray
 }
 .app {
-  background:#E5FFFA ;
+  background-color:#B2BEB5;
   min-height: 100vh;
   display: flex;
   justify-content: center;

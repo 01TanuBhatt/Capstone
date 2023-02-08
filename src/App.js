@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import './App.css';
 import Header from './components/Header/Header';
 import KeyPad from './components/KeyPad/KeyPad';
@@ -14,9 +14,12 @@ const operators = ["-", "+", "*", "/"];
 
 function App() {
 
-  const[isDarkMode,setIsDarkMode] = useState(false);
+  const[isDarkMode,setIsDarkMode] = useState(JSON.parse(localStorage.getItem("calculator-app-mode"))||false);
   const[expression,setExpression] = useState("");
   const[result,setResult] = useState("");
+  const[history,setHistory] =useState(JSON.parse(localStorage.getItem("calculator-app-history"))|| []);
+
+
   const handleKeyPress =(keyCode,key)=>{
     if(!keyCode) return;
     
@@ -27,7 +30,8 @@ function App() {
       {
         if(expression.length===0) return
       }
-      setExpression(expression+key)
+      calculateResult(expression+key);
+      setExpression(expression+key);
     }
     
     else if(operators.includes(key)){
@@ -39,8 +43,9 @@ function App() {
     }
     
     else if(keyCode===8){
-      if(!expression)return
-      setExpression(expression.slice(0,-1))
+      if(!expression)return;
+      calculateResult(expression.slice(0,-1));
+      setExpression(expression.slice(0,-1));
     }
     
     else if(key==="."){
@@ -52,19 +57,35 @@ function App() {
     else if(keyCode===13){
       if(!expression) return;
       calculateResult(expression);
+      
+      const tempHistory=[...history]
+      if(tempHistory.length>20) tempHistory=tempHistory.slice(0,1);
+      tempHistory.push(expression);
+      setHistory(tempHistory);
     }
   };
 
   const calculateResult=(exp)=>{
-    if(!exp) return;
+    if(!exp) {
+      setResult("");
+      return;
+    }
     const lastChar=exp.slice(-1);
     if(!numbers.includes(lastChar))exp=exp.slice(0,-1)
-    const answer = eval(exp).toFixed(3) + "";
+    const answer = eval(exp).toFixed(2) + "";
     setResult(answer);
   };
 
+  useEffect(()=>{
+    localStorage.setItem("calculator-app-mode",JSON.stringify(isDarkMode))
+  },[isDarkMode])
+
+  useEffect(()=>{
+    localStorage.setItem("calculator-app-history",JSON.stringify(history))
+  },[history])
+
   return (
-    <div className="app"
+    <div className="app" 
     tabIndex="0"
     onKeyDown={(event)=>handleKeyPress(event.keyCode,event.key)} data-theme={isDarkMode?"dark":""}>
       <div className="app_calculator">
@@ -81,7 +102,7 @@ function App() {
           </div>
           <img src={isDarkMode ? "https://raw.githubusercontent.com/handyDev2/react-calculator/master/src/assets/moon.png" : "https://github.com/handyDev2/react-calculator/blob/master/src/assets/sun.png?raw=true"} alt="mode" />
         </div>
-     <Header expression={expression} result={result}/>
+     <Header expression={expression} result={result} history={history}/>
      <KeyPad handleKeyPress={handleKeyPress}/>
       
     </div>
