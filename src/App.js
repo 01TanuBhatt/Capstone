@@ -2,7 +2,8 @@ import React,{useState,useEffect} from 'react'
 import './App.css';
 import Header from './components/Header/Header';
 import KeyPad from './components/KeyPad/KeyPad';
-
+import moon from './images/moon.png';
+import sun from './images/sun.png';
 const usedKeyCodes = [
   48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103,
   104, 105, 8, 13, 190, 187, 189, 191, 56, 111, 106, 107, 109,
@@ -100,7 +101,7 @@ function App() {
               }`}
             />
           </div>
-          <img src={isDarkMode ? "https://raw.githubusercontent.com/handyDev2/react-calculator/master/src/assets/moon.png" : "https://github.com/handyDev2/react-calculator/blob/master/src/assets/sun.png?raw=true"} alt="mode" />
+          <img src={isDarkMode ? moon : sun} alt="mode" />
         </div>
      <Header expression={expression} result={result} history={history}/>
      <KeyPad handleKeyPress={handleKeyPress}/>
